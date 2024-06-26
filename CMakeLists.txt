@@ -1,0 +1,34 @@
+cmake_minimum_required(VERSION 3.13)
+
+set(PROJECT_NAME scop)
+set(CMAKE_CXX_STANDARD 17)
+
+set(WINDOW_NAME "scop")
+set(WINDOW_WIDTH 960)
+set(WINDOW_HEIGHT 540)
+
+if (APPLE)
+		set(CMAKE_CXX_FLAGS "-framework Cocoa -framework IOKit -framework OpenGL")
+endif()
+
+project(${PROJECT_NAME})
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+
+include(Dependency.cmake)
+
+set(DEP_INSTALL_DIR ${PROJECT_BINARY_DIR}/install)
+set(DEP_INCLUDE_DIR ${DEP_INSTALL_DIR}/include)
+set(DEP_LIB_DIR ${DEP_INSTALL_DIR}/lib)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${DEP_INCLUDE_DIR})
+target_link_directories(${PROJECT_NAME} PUBLIC ${DEP_LIB_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${DEP_LIBS})
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+	WINDOW_NAME="${WINDOW_NAME}"
+	WINDOW_WIDTH=${WINDOW_WIDTH}
+	WINDOW_HEIGHT=${WINDOW_HEIGHT}
+)
+
+add_dependencies(${PROJECT_NAME} ${DEP_LIST})
