@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shader.h"
+#include "program.h"
+#include "context.h"
 #include <spdlog/spdlog.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -62,6 +65,14 @@ int main(int argc, const char** argv) {
 	auto glVersion = glGetString(GL_VERSION);
 	SPDLOG_INFO("OpenGL context version: {}", (const char*)glVersion);
 
+	auto context = Context::Create();
+	if (!context) {
+		SPDLOG_ERROR("failed to create context");
+		glfwTerminate();
+		return -1;
+	}
+	
+
 	OnFramebufferSizeChange(window, WINDOW_WIDTH, WINDOW_HEIGHT);
 	glfwSetFramebufferSizeCallback(window, OnFramebufferSizeChange);
 	glfwSetKeyCallback(window, OnKeyEvent);
@@ -69,11 +80,11 @@ int main(int argc, const char** argv) {
 
 	SPDLOG_INFO("Start main loop");
 	while (!glfwWindowShouldClose(window)) {
-		Render();
+		context->Render();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
+	context.reset();
 	glfwTerminate();
 	return 0;
 }

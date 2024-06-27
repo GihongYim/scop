@@ -21,7 +21,7 @@ bool Shader::LoadFile(const std::string& filename, GLenum shaderType) {
 	glCompileShader(m_shader);
 
 	int success = 0;
-	glGetShaderiv(m_shader GL_COMPILE_STATUS, &success);
+	glGetShaderiv(m_shader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		char infoLog[1024];
 		glGetShaderInfoLog(m_shader, 1024, nullptr, infoLog);
@@ -30,4 +30,10 @@ bool Shader::LoadFile(const std::string& filename, GLenum shaderType) {
 		return false;
 	}
 	return true;
+}
+
+Shader::~Shader() {
+	if (m_shader) {
+		glDeleteShader(m_shader);
+	}
 }
