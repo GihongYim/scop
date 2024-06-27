@@ -1,6 +1,3 @@
-#include "common.h"
-#include "shader.h"
-#include "program.h"
 #include "context.h"
 #include <spdlog/spdlog.h>
 #include <glad/glad.h>
@@ -85,6 +82,7 @@ int main(int argc, const char** argv) {
 		glfwPollEvents();
 	}
 	context.reset();
+
 	glfwTerminate();
 	return 0;
 }
