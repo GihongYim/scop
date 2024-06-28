@@ -8,13 +8,13 @@ ProgramUPtr Program::Create(const std::vector<ShaderPtr>& shaders) {
 }
 
 ProgramUPtr Program::Create(const std::string& vertShaderFilename, const std::string& fragShaderFilename) {
-  ShaderPtr vs = Shader::CreateFromFile(vertShaderFilename,
-	GL_VERTEX_SHADER);
-  ShaderPtr fs = Shader::CreateFromFile(fragShaderFilename,
-	GL_FRAGMENT_SHADER);
-  if (!vs || !fs)
-	return nullptr;
-  return std::move(Create({vs, fs}));
+	ShaderPtr vs = Shader::CreateFromFile(vertShaderFilename,
+		GL_VERTEX_SHADER);
+	ShaderPtr fs = Shader::CreateFromFile(fragShaderFilename,
+		GL_FRAGMENT_SHADER);
+	if (!vs || !fs)
+		return nullptr;
+	return std::move(Create({vs, fs}));
 }
 
 Program::~Program() {
