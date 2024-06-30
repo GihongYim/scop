@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+      "*.hpp": "cpp",
+      "optional": "cpp",
+      "memory": "cpp"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "cmake.debugConfig": {
+    "cwd": "${workspaceFolder}"
+  }
+}

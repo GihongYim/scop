@@ -2,6 +2,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "common.h"
+#include "shader.h"
+#include "program.h"
+#include "context.h"
+
 void OnFramebufferSizeChange(GLFWwindow* window, int width, int height) {
     SPDLOG_INFO("framebuffer size changed: ({} x {})", width, height);
     glViewport(0, 0, width, height);
@@ -21,6 +26,11 @@ void OnKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods)
     }
 }
 
+void Render() {
+    glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
 int main(int argc, const char** argv) {
 
     SPDLOG_INFO("Initialize glfw");
@@ -38,8 +48,7 @@ int main(int argc, const char** argv) {
 
 
     SPDLOG_INFO("Create glfw window");
-    auto window = glfwCreateWindow(
-        WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME, nullptr, nullptr);
+    auto window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME, nullptr, nullptr);
 	
     if (!window) {
         SPDLOG_ERROR("failed to create glfw window");
@@ -62,10 +71,21 @@ int main(int argc, const char** argv) {
     glfwSetFramebufferSizeCallback(window, OnFramebufferSizeChange);
     glfwSetKeyCallback(window, OnKeyEvent);
 
+    auto context = Context::Create();
+    if (!context) {
+        SPDLOG_ERROR("failed to create context");
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwSwapInterval(0);
     SPDLOG_INFO("Start main loop");
     while (!glfwWindowShouldClose(window)) {
+        context->Render();
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
+    context.reset();
 
     glfwTerminate();
     return 0;
