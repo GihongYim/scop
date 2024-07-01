@@ -41,6 +41,10 @@ bool Context::Init() {
 		return false;
 	SPDLOG_INFO("program id: {}", m_program->Get());
 
+	auto loc = glGetUniformLocation(m_program->Get(), "color");
+	m_program->Use();
+	glUniform4f(loc, 1.0f, 1.0f, 0.0f, 1.0f);
+
 	glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
 	return true;
 }
