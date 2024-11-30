@@ -1,7 +1,8 @@
 {
 	"files.associations": {
 		"fstream": "cpp",
-		"memory": "cpp"
+		"memory": "cpp",
+		"charconv": "cpp"
 	},
 	"C_Cpp.intelliSenseEngineFallback": "Enabled",
 	"cmake.debugConfig": {
